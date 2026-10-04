@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CineVerse 🎬</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #08090d;
+      color: white;
+    }
+
+    /* HEADER */
+    header {
+      height: 70px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0d0f15;
+      border-bottom: 1px solid #222631;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #8b5cf6;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: #aaaebb;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      padding: 80px 6%;
+
+      background:
+        radial-gradient(
+          circle at 80% 30%,
+          #40228b,
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #11131d,
+          #08090d
+        );
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .small-title {
+      color: #9b7cff;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      font-size: clamp(45px, 7vw, 75px);
+      line-height: 1.05;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 span {
+      color: #8b5cf6;
+      display: block;
+    }
+
+    .hero-text {
+      color: #a5a9b5;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    /* SEARCH */
+    .search-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-box input {
+      flex: 1;
+      height: 55px;
+      padding: 0 18px;
+      border-radius: 10px;
+      border: 1px solid #292d39;
+      outline: none;
+      background: #151821;
+      color: white;
+      font-size: 16px;
+    }
+
+    .search-box input:focus {
+      border-color: #8b5cf6;
+    }
+
+    .search-box button {
+      height: 55px;
+      padding: 0 25px;
+      border: none;
+      border-radius: 10px;
+      background: #8b5cf6;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      background: #7042dc;
+    }
+
+    /* MOVIES */
+    .movies-section {
+      padding: 70px 6%;
+    }
+
+    .section-title {
+      margin-bottom: 30px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+    }
+
+    #status {
+      color: #8d93a1;
+      margin-bottom: 25px;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fill, minmax(170px, 1fr));
+      gap: 24px;
+    }
+
+    .movie-card {
+      background: #12151d;
+      border: 1px solid #20242e;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-7px);
+      border-color: #7652d9;
+    }
+
+    .movie-card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .movie-info {
+      padding: 14px;
+    }
+
+    .movie-info h3 {
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .movie-info p {
+      color: #858b99;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 35px 20px;
+      background: #0d0f15;
+      border-top: 1px solid #20232d;
+      color: #777d8b;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 650px) {
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 70px 5%;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .search-box button {
+        width: 100%;
+      }
+
+      .movies-section {
+        padding: 50px 5%;
+      }
+
+      .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+
+    <div class="logo">
+      Cine<span>Verse</span>
+    </div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#movies">Movies</a>
+      <a href="#movies">Popular</a>
+    </nav>
+
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+
+    <div class="hero-content">
+
+      <p class="small-title">
+        WELCOME TO CINEVERSE
+      </p>
+
+      <h1>
+        Discover Your
+        <span>Next Movie</span>
+      </h1>
+
+      <p class="hero-text">
+        Search movies, discover popular films,
+        check ratings and explore movie information.
+      </p>
+
+      <div class="search-box">
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search for a movie..."
+        >
+
+        <button id="searchBtn">
+          🔍 Search
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MOVIES -->
+  <section class="movies-section" id="movies">
+
+    <div class="section-title">
+
+      <p class="small-title">
+        EXPLORE
+      </p>
+
+      <h2 id="sectionTitle">
+        Popular Movies 🎬
+      </h2>
+
+    </div>
+
+    <p id="status">
+      Loading movies...
+    </p>
+
+    <div
+      id="movieGrid"
+      class="movie-grid">
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <h3>
+      CineVerse 🎬
+    </h3>
+
+    <p>
+      Movie information powered by TMDB.
+    </p>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    // =========================
+    // TMDB API
+    // =========================
+
+    const API_KEY =
+      "87e705779727e8f5cb4e0a90947e951a";
+
+    const API_URL =
+      "https://api.themoviedb.org/3";
+
+    const IMAGE_URL =
+      "https://image.tmdb.org/t/p/w500";
+
+
+    // =========================
+    // ELEMENTS
+    // =========================
+
+    const movieGrid =
+      document.getElementById("movieGrid");
+
+    const status =
+      document.getElementById("status");
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const searchBtn =
+      document.getElementById("searchBtn");
+
+    const sectionTitle =
+      document.getElementById("sectionTitle");
+
+
+    // =========================
+    // GET POPULAR MOVIES
+    // =========================
+
+    async function getPopularMovies() {
+
+      status.innerText =
+        "Loading movies...";
+
+      try {
+
+        const response = await fetch(
+          `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+        );
+
+        if (!response.ok) {
+          throw new Error("API request failed");
+        }
+
+        const data =
+          await response.json();
+
+        displayMovies(data.results);
+
+      } catch (error) {
+
+        console.error(error);
+
+        status.innerText =
+          "❌ Failed to load movies.";
+
+      }
+    }
+
+
+    // =========================
+    // DISPLAY MOVIES
+    // =========================
+
+    function displayMovies(movies) {
+
+      movieGrid.innerHTML = "";
+
+      if (!movies || movies.length === 0) {
+
+        status.innerText =
+          "No movies found.";
+
+        return;
+      }
+
+      status.innerText =
+        `${movies.length} movies found`;
+
+
+      movies.forEach(movie => {
+
+        const card =
+          document.createElement("div");
+
+        card.className =
+          "movie-card";
+
+
+        const poster =
+          movie.poster_path
+            ? IMAGE_URL + movie.poster_path
+            : "https://via.placeholder.com/500x750?text=No+Poster";
+
+
+        const year =
+          movie.release_date
+            ? movie.release_date.substring(0, 4)
+            : "N/A";
+
+
+        const rating =
+          movie.vote_average
+            ? movie.vote_average.toFixed(1)
+            : "N/A";
+
+
+        card.innerHTML = `
+
+          <img
+            src="${poster}"
+            alt="${movie.title}"
+          >
+
+          <div class="movie-info">
+
+            <h3>
+              ${movie.title}
+            </h3>
+
+            <p>
+              📅 ${year}
+              &nbsp;&nbsp;
+              ⭐ ${rating}
+            </p>
+
+          </div>
+
+        `;
+
+
+        movieGrid.appendChild(card);
+
+      });
+
+    }
+
+
+    // =========================
+    // SEARCH MOVIES
+    // =========================
+
+    async function searchMovies() {
+
+      const query =
+        searchInput.value.trim();
+
+
+      if (!query) {
+
+        sectionTitle.innerText =
+          "Popular Movies 🎬";
+
+        getPopularMovies();
+
+        return;
+      }
+
+
+      status.innerText =
+        "Searching...";
+
+
+      try {
+
+        const response = await fetch(
+          `${API_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1`
+        );
+
+
+        if (!response.ok) {
+          throw new Error("Search failed");
+        }
+
+
+        const data =
+          await response.json();
+
+
+        sectionTitle.innerText =
+          `Search Results: ${query}`;
+
+
+        displayMovies(data.results);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        status.innerText =
+          "❌ Search failed.";
+
+      }
+
+    }
+
+
+    // =========================
+    // SEARCH BUTTON
+    // =========================
+
+    searchBtn.addEventListener(
+      "click",
+      searchMovies
+    );
+
+
+    // =========================
+    // ENTER KEY
+    // =========================
+
+    searchInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          searchMovies();
+
+        }
+
+      }
+    );
+
+
+    // =========================
+    // START WEBSITE
+    // =========================
+
+    getPopularMovies();
+
+  </script>
+
+</body>
+</html>
