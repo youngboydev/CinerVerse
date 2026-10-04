@@ -23,7 +23,8 @@
       color: white;
     }
 
-    /* HEADER */
+    /* ================= HEADER ================= */
+
     header {
       height: 70px;
       padding: 0 6%;
@@ -61,7 +62,8 @@
       color: white;
     }
 
-    /* HERO */
+    /* ================= HERO ================= */
+
     .hero {
       min-height: 520px;
       display: flex;
@@ -111,7 +113,8 @@
       margin-bottom: 30px;
     }
 
-    /* SEARCH */
+    /* ================= SEARCH ================= */
+
     .search-box {
       display: flex;
       gap: 10px;
@@ -148,7 +151,8 @@
       background: #7042dc;
     }
 
-    /* MOVIES */
+    /* ================= MOVIES ================= */
+
     .movies-section {
       padding: 70px 6%;
     }
@@ -211,7 +215,134 @@
       margin-top: 8px;
     }
 
-    /* FOOTER */
+    /* ================= DETAILS MODAL ================= */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 950px;
+      background: #11141c;
+      border: 1px solid #292d39;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 18px;
+      top: 15px;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .close-btn:hover {
+      background: #8b5cf6;
+    }
+
+    .details {
+      display: flex;
+      gap: 30px;
+      padding: 35px;
+    }
+
+    .details-poster {
+      width: 260px;
+      min-width: 260px;
+      height: 390px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .details-info {
+      padding-top: 20px;
+    }
+
+    .details-info h2 {
+      font-size: 38px;
+      margin-bottom: 15px;
+    }
+
+    .details-meta {
+      color: #a5a9b5;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .details-overview {
+      color: #c1c5d0;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .trailer-btn {
+      display: inline-block;
+      border: none;
+      padding: 13px 22px;
+      border-radius: 9px;
+      background: #8b5cf6;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .trailer-btn:hover {
+      background: #7042dc;
+    }
+
+    .no-trailer {
+      color: #858b99;
+      font-size: 14px;
+    }
+
+    /* ================= TRAILER ================= */
+
+    .trailer-container {
+      display: none;
+      padding: 0 35px 35px;
+    }
+
+    .trailer-container.active {
+      display: block;
+    }
+
+    .trailer-container h3 {
+      margin-bottom: 15px;
+    }
+
+    .trailer-container iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+      border-radius: 12px;
+    }
+
+    /* ================= FOOTER ================= */
+
     footer {
       text-align: center;
       padding: 35px 20px;
@@ -225,7 +356,8 @@
       margin-bottom: 8px;
     }
 
-    /* MOBILE */
+    /* ================= MOBILE ================= */
+
     @media (max-width: 650px) {
 
       nav {
@@ -256,13 +388,42 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 14px;
       }
+
+      .modal {
+        padding: 10px;
+      }
+
+      .details {
+        flex-direction: column;
+        padding: 25px;
+      }
+
+      .details-poster {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        max-height: 500px;
+      }
+
+      .details-info h2 {
+        font-size: 28px;
+      }
+
+      .trailer-container {
+        padding: 0 25px 25px;
+      }
+
+      .trailer-container iframe {
+        height: 230px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <!-- ================= HEADER ================= -->
+
   <header>
 
     <div class="logo">
@@ -278,7 +439,8 @@
   </header>
 
 
-  <!-- HERO -->
+  <!-- ================= HERO ================= -->
+
   <section class="hero" id="home">
 
     <div class="hero-content">
@@ -316,7 +478,8 @@
   </section>
 
 
-  <!-- MOVIES -->
+  <!-- ================= MOVIES ================= -->
+
   <section class="movies-section" id="movies">
 
     <div class="section-title">
@@ -343,7 +506,75 @@
   </section>
 
 
-  <!-- FOOTER -->
+  <!-- ================= MOVIE DETAILS MODAL ================= -->
+
+  <div
+    id="movieModal"
+    class="modal">
+
+    <div class="modal-content">
+
+      <button
+        class="close-btn"
+        id="closeModal">
+        ×
+      </button>
+
+      <div class="details">
+
+        <img
+          id="detailsPoster"
+          class="details-poster"
+          src=""
+          alt="Movie poster"
+        >
+
+        <div class="details-info">
+
+          <h2 id="detailsTitle">
+            Movie Title
+          </h2>
+
+          <div
+            id="detailsMeta"
+            class="details-meta">
+          </div>
+
+          <p
+            id="detailsOverview"
+            class="details-overview">
+          </p>
+
+          <div id="trailerArea"></div>
+
+        </div>
+
+      </div>
+
+      <div
+        id="trailerContainer"
+        class="trailer-container">
+
+        <h3>
+          🎬 Official Trailer
+        </h3>
+
+        <iframe
+          id="trailerFrame"
+          src=""
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= FOOTER ================= -->
+
   <footer>
 
     <h3>
@@ -357,7 +588,8 @@
   </footer>
 
 
-  <!-- JAVASCRIPT -->
+  <!-- ================= JAVASCRIPT ================= -->
+
   <script>
 
     // =========================
@@ -393,6 +625,33 @@
     const sectionTitle =
       document.getElementById("sectionTitle");
 
+    const movieModal =
+      document.getElementById("movieModal");
+
+    const closeModal =
+      document.getElementById("closeModal");
+
+    const detailsPoster =
+      document.getElementById("detailsPoster");
+
+    const detailsTitle =
+      document.getElementById("detailsTitle");
+
+    const detailsMeta =
+      document.getElementById("detailsMeta");
+
+    const detailsOverview =
+      document.getElementById("detailsOverview");
+
+    const trailerArea =
+      document.getElementById("trailerArea");
+
+    const trailerContainer =
+      document.getElementById("trailerContainer");
+
+    const trailerFrame =
+      document.getElementById("trailerFrame");
+
 
     // =========================
     // GET POPULAR MOVIES
@@ -405,9 +664,10 @@
 
       try {
 
-        const response = await fetch(
-          `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
-        );
+        const response =
+          await fetch(
+            `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+          );
 
         if (!response.ok) {
           throw new Error("API request failed");
@@ -471,7 +731,7 @@
 
 
         const rating =
-          movie.vote_average
+          movie.vote_average != null
             ? movie.vote_average.toFixed(1)
             : "N/A";
 
@@ -500,11 +760,258 @@
         `;
 
 
+        // CLICK MOVIE CARD
+        card.addEventListener(
+          "click",
+          function() {
+
+            openMovieDetails(movie.id);
+
+          }
+        );
+
+
         movieGrid.appendChild(card);
 
       });
 
     }
+
+
+    // =========================
+    // OPEN MOVIE DETAILS
+    // =========================
+
+    async function openMovieDetails(movieId) {
+
+      movieModal.classList.add("active");
+
+      detailsTitle.innerText =
+        "Loading...";
+
+      detailsOverview.innerText =
+        "Loading movie information...";
+
+      detailsMeta.innerText =
+        "";
+
+      trailerArea.innerHTML =
+        "";
+
+      trailerContainer.classList.remove(
+        "active"
+      );
+
+      trailerFrame.src =
+        "";
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            "Movie details request failed"
+          );
+        }
+
+        const movie =
+          await response.json();
+
+
+        // POSTER
+
+        detailsPoster.src =
+          movie.poster_path
+            ? IMAGE_URL + movie.poster_path
+            : "https://via.placeholder.com/500x750?text=No+Poster";
+
+
+        // TITLE
+
+        detailsTitle.innerText =
+          movie.title;
+
+
+        // META INFORMATION
+
+        const year =
+          movie.release_date
+            ? movie.release_date.substring(0, 4)
+            : "N/A";
+
+        const rating =
+          movie.vote_average != null
+            ? movie.vote_average.toFixed(1)
+            : "N/A";
+
+        const runtime =
+          movie.runtime
+            ? `${movie.runtime} min`
+            : "N/A";
+
+
+        detailsMeta.innerHTML = `
+          📅 ${year}
+          &nbsp; • &nbsp;
+          ⭐ ${rating}/10
+          &nbsp; • &nbsp;
+          ⏱️ ${runtime}
+        `;
+
+
+        // OVERVIEW
+
+        detailsOverview.innerText =
+          movie.overview ||
+          "No description available for this movie.";
+
+
+        // =========================
+        // FIND TRAILER
+        // =========================
+
+        const videos =
+          movie.videos &&
+          movie.videos.results
+            ? movie.videos.results
+            : [];
+
+
+        const trailer =
+          videos.find(video =>
+            video.site === "YouTube" &&
+            video.type === "Trailer" &&
+            video.official === true
+          ) ||
+          videos.find(video =>
+            video.site === "YouTube" &&
+            video.type === "Trailer"
+          ) ||
+          videos.find(video =>
+            video.site === "YouTube"
+          );
+
+
+        if (trailer) {
+
+          trailerArea.innerHTML = `
+            <button
+              class="trailer-btn"
+              id="watchTrailer">
+              ▶️ Watch Trailer
+            </button>
+          `;
+
+
+          document
+            .getElementById("watchTrailer")
+            .addEventListener(
+              "click",
+              function() {
+
+                trailerFrame.src =
+                  `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+
+                trailerContainer.classList.add(
+                  "active"
+                );
+
+                trailerContainer.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center"
+                });
+
+              }
+            );
+
+        } else {
+
+          trailerArea.innerHTML = `
+            <p class="no-trailer">
+              🎬 No trailer available for this movie.
+            </p>
+          `;
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        detailsTitle.innerText =
+          "Unable to load movie";
+
+        detailsOverview.innerText =
+          "Something went wrong while loading this movie.";
+
+      }
+
+    }
+
+
+    // =========================
+    // CLOSE MODAL
+    // =========================
+
+    function closeMovieModal() {
+
+      movieModal.classList.remove(
+        "active"
+      );
+
+      trailerFrame.src =
+        "";
+
+      trailerContainer.classList.remove(
+        "active"
+      );
+
+    }
+
+
+    closeModal.addEventListener(
+      "click",
+      closeMovieModal
+    );
+
+
+    // CLICK OUTSIDE MODAL
+
+    movieModal.addEventListener(
+      "click",
+      function(event) {
+
+        if (event.target === movieModal) {
+
+          closeMovieModal();
+
+        }
+
+      }
+    );
+
+
+    // ESCAPE KEY
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape" &&
+          movieModal.classList.contains("active")
+        ) {
+
+          closeMovieModal();
+
+        }
+
+      }
+    );
 
 
     // =========================
@@ -534,13 +1041,16 @@
 
       try {
 
-        const response = await fetch(
-          `${API_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1`
-        );
+        const response =
+          await fetch(
+            `${API_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1`
+          );
 
 
         if (!response.ok) {
-          throw new Error("Search failed");
+          throw new Error(
+            "Search failed"
+          );
         }
 
 
@@ -552,7 +1062,9 @@
           `Search Results: ${query}`;
 
 
-        displayMovies(data.results);
+        displayMovies(
+          data.results
+        );
 
 
       } catch (error) {
