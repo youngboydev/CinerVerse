@@ -4,417 +4,503 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>CineVerse 🎬</title>
+  <title>Nick AI 🤖</title>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
+    :root {
+      --bg: #050816;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel2: rgba(30, 41, 59, 0.65);
+      --border: rgba(255,255,255,0.08);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #08090d;
-      color: white;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(59,130,246,.18), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(139,92,246,.18), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow: hidden;
     }
 
-    /* ================= HEADER ================= */
+    /* Animated background */
 
-    header {
-      height: 70px;
-      padding: 0 6%;
+    .orb {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .25;
+      pointer-events: none;
+      animation: float 8s infinite alternate ease-in-out;
+    }
+
+    .orb.one {
+      background: #2563eb;
+      top: -120px;
+      left: -100px;
+    }
+
+    .orb.two {
+      background: #7c3aed;
+      bottom: -150px;
+      right: -100px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(50px, 40px);
+      }
+    }
+
+    /* Main app */
+
+    .app {
+      width: 95%;
+      max-width: 1200px;
+      height: 92vh;
+      margin: 4vh auto;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #0d0f15;
-      border-bottom: 1px solid #222631;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background: rgba(8, 15, 30, .72);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      backdrop-filter: blur(25px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.45);
+    }
+
+    /* Sidebar */
+
+    .sidebar {
+      width: 250px;
+      padding: 25px 18px;
+      background: rgba(2,6,23,.55);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
     }
 
     .logo {
-      font-size: 26px;
-      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 35px;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 8px 25px rgba(59,130,246,.3);
+    }
+
+    .logo h1 {
+      font-size: 20px;
+      font-weight: 800;
     }
 
     .logo span {
-      color: #8b5cf6;
+      color: #60a5fa;
     }
 
-    nav {
-      display: flex;
-      gap: 25px;
+    .new-chat {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid rgba(96,165,250,.25);
+      border-radius: 13px;
+      background: rgba(59,130,246,.1);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .25s;
     }
 
-    nav a {
-      color: #aaaebb;
-      text-decoration: none;
-      transition: 0.3s;
+    .new-chat:hover {
+      background: rgba(59,130,246,.2);
+      transform: translateY(-2px);
     }
 
-    nav a:hover {
+    .menu-title {
+      color: #64748b;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 30px 10px 12px;
+    }
+
+    .menu-item {
+      padding: 12px;
+      border-radius: 10px;
+      color: #cbd5e1;
+      font-size: 14px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .menu-item:hover,
+    .menu-item.active {
+      background: rgba(255,255,255,.06);
       color: white;
     }
 
-    /* ================= HERO ================= */
-
-    .hero {
-      min-height: 520px;
-      display: flex;
-      align-items: center;
-      padding: 80px 6%;
-
-      background:
-        radial-gradient(
-          circle at 80% 30%,
-          #40228b,
-          transparent 35%
-        ),
-        linear-gradient(
-          135deg,
-          #11131d,
-          #08090d
-        );
-    }
-
-    .hero-content {
-      max-width: 700px;
-    }
-
-    .small-title {
-      color: #9b7cff;
+    .status {
+      margin-top: auto;
+      padding: 13px;
+      border-radius: 13px;
+      background: rgba(34,197,94,.07);
+      border: 1px solid rgba(34,197,94,.12);
       font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 15px;
+      color: #86efac;
     }
 
-    .hero h1 {
-      font-size: clamp(45px, 7vw, 75px);
-      line-height: 1.05;
-      margin-bottom: 25px;
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      margin-right: 7px;
+      box-shadow: 0 0 10px #22c55e;
     }
 
-    .hero h1 span {
-      color: #8b5cf6;
-      display: block;
-    }
+    /* Chat */
 
-    .hero-text {
-      color: #a5a9b5;
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    /* ================= SEARCH ================= */
-
-    .search-box {
-      display: flex;
-      gap: 10px;
-    }
-
-    .search-box input {
+    .chat {
       flex: 1;
-      height: 55px;
-      padding: 0 18px;
-      border-radius: 10px;
-      border: 1px solid #292d39;
-      outline: none;
-      background: #151821;
-      color: white;
-      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
 
-    .search-box input:focus {
-      border-color: #8b5cf6;
-    }
-
-    .search-box button {
-      height: 55px;
+    .topbar {
+      height: 75px;
       padding: 0 25px;
-      border: none;
-      border-radius: 10px;
-      background: #8b5cf6;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .search-box button:hover {
-      background: #7042dc;
-    }
-
-    /* ================= MOVIES ================= */
-
-    .movies-section {
-      padding: 70px 6%;
-    }
-
-    .section-title {
-      margin-bottom: 30px;
-    }
-
-    .section-title h2 {
-      font-size: 32px;
-    }
-
-    #status {
-      color: #8d93a1;
-      margin-bottom: 25px;
-    }
-
-    .movie-grid {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fill, minmax(170px, 1fr));
-      gap: 24px;
-    }
-
-    .movie-card {
-      background: #12151d;
-      border: 1px solid #20242e;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .movie-card:hover {
-      transform: translateY(-7px);
-      border-color: #7652d9;
-    }
-
-    .movie-card img {
-      width: 100%;
-      aspect-ratio: 2 / 3;
-      object-fit: cover;
-      display: block;
-    }
-
-    .movie-info {
-      padding: 14px;
-    }
-
-    .movie-info h3 {
-      font-size: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .movie-info p {
-      color: #858b99;
-      font-size: 13px;
-      margin-top: 8px;
-    }
-
-    /* ================= DETAILS MODAL ================= */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.85);
-      padding: 30px;
-      overflow-y: auto;
-    }
-
-    .modal.active {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(15,23,42,.3);
     }
 
-    .modal-content {
-      width: 100%;
-      max-width: 950px;
-      background: #11141c;
-      border: 1px solid #292d39;
-      border-radius: 18px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+    .ai-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .close-btn {
-      position: absolute;
-      right: 18px;
-      top: 15px;
+    .ai-avatar {
       width: 42px;
       height: 42px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      font-size: 24px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,#2563eb,#7c3aed);
+      font-size: 21px;
+    }
+
+    .ai-info h2 {
+      font-size: 15px;
+    }
+
+    .ai-info p {
+      color: #64748b;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .online {
+      color: #4ade80;
+    }
+
+    .clear-btn {
+      border: 0;
+      background: transparent;
+      color: #64748b;
       cursor: pointer;
-      z-index: 10;
+      font-size: 13px;
+      transition: .2s;
     }
 
-    .close-btn:hover {
-      background: #8b5cf6;
+    .clear-btn:hover {
+      color: white;
     }
 
-    .details {
-      display: flex;
-      gap: 30px;
+    /* Messages */
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
       padding: 35px;
+      scroll-behavior: smooth;
     }
 
-    .details-poster {
-      width: 260px;
-      min-width: 260px;
-      height: 390px;
-      object-fit: cover;
-      border-radius: 12px;
+    #messages::-webkit-scrollbar {
+      width: 5px;
     }
 
-    .details-info {
-      padding-top: 20px;
+    #messages::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 20px;
     }
 
-    .details-info h2 {
+    .welcome {
+      text-align: center;
+      max-width: 600px;
+      margin: 8vh auto 40px;
+    }
+
+    .welcome-icon {
+      width: 75px;
+      height: 75px;
+      margin: auto;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
       font-size: 38px;
-      margin-bottom: 15px;
+      background: linear-gradient(135deg,#2563eb,#7c3aed);
+      box-shadow: 0 15px 40px rgba(59,130,246,.25);
     }
 
-    .details-meta {
-      color: #a5a9b5;
-      margin-bottom: 20px;
-      line-height: 1.8;
+    .welcome h2 {
+      margin-top: 22px;
+      font-size: 30px;
+      font-weight: 800;
     }
 
-    .details-overview {
-      color: #c1c5d0;
-      line-height: 1.7;
-      margin-bottom: 25px;
+    .welcome h2 span {
+      background: linear-gradient(90deg,#60a5fa,#a78bfa);
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
-    .trailer-btn {
-      display: inline-block;
-      border: none;
-      padding: 13px 22px;
-      border-radius: 9px;
-      background: #8b5cf6;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .trailer-btn:hover {
-      background: #7042dc;
-    }
-
-    .no-trailer {
-      color: #858b99;
+    .welcome p {
+      color: #94a3b8;
+      margin-top: 10px;
+      line-height: 1.6;
       font-size: 14px;
     }
 
-    /* ================= TRAILER ================= */
-
-    .trailer-container {
-      display: none;
-      padding: 0 35px 35px;
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 25px;
     }
 
-    .trailer-container.active {
-      display: block;
+    .suggestion {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: .2s;
     }
 
-    .trailer-container h3 {
-      margin-bottom: 15px;
+    .suggestion:hover {
+      border-color: rgba(96,165,250,.4);
+      background: rgba(59,130,246,.1);
     }
 
-    .trailer-container iframe {
-      width: 100%;
-      height: 450px;
+    .message {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      animation: appear .3s ease;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      flex-shrink: 0;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      background: #1e293b;
+    }
+
+    .message.user .avatar {
+      background: linear-gradient(135deg,#2563eb,#4f46e5);
+    }
+
+    .bubble {
+      max-width: 75%;
+      padding: 13px 16px;
+      border-radius: 17px;
+      background: rgba(30,41,59,.8);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .message.user .bubble {
+      background: linear-gradient(135deg,#2563eb,#4f46e5);
       border: none;
-      border-radius: 12px;
+      border-bottom-right-radius: 5px;
     }
 
-    /* ================= FOOTER ================= */
-
-    footer {
-      text-align: center;
-      padding: 35px 20px;
-      background: #0d0f15;
-      border-top: 1px solid #20232d;
-      color: #777d8b;
+    .message.ai .bubble {
+      border-bottom-left-radius: 5px;
     }
 
-    footer h3 {
+    /* Input */
+
+    .input-wrapper {
+      padding: 18px 25px 22px;
+      border-top: 1px solid var(--border);
+      background: rgba(2,6,23,.4);
+    }
+
+    .input-box {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 17px;
+      background: rgba(15,23,42,.85);
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      transition: .2s;
+    }
+
+    .input-box:focus-within {
+      border-color: rgba(96,165,250,.5);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.08);
+    }
+
+    #input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
       color: white;
-      margin-bottom: 8px;
+      padding: 13px;
+      font-size: 14px;
+      font-family: inherit;
     }
 
-    /* ================= MOBILE ================= */
+    #input::placeholder {
+      color: #64748b;
+    }
 
-    @media (max-width: 650px) {
+    #send {
+      width: 45px;
+      height: 45px;
+      border: none;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(135deg,#2563eb,#7c3aed);
+      cursor: pointer;
+      font-size: 18px;
+      transition: .2s;
+    }
 
-      nav {
+    #send:hover {
+      transform: scale(1.05);
+    }
+
+    #send:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .footer-text {
+      text-align: center;
+      color: #475569;
+      font-size: 10px;
+      margin-top: 9px;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 700px) {
+
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+      }
+
+      .sidebar {
         display: none;
       }
 
-      .hero {
-        padding: 70px 5%;
+      .topbar {
+        padding: 0 17px;
       }
 
-      .hero h1 {
-        font-size: 48px;
+      #messages {
+        padding: 22px 16px;
       }
 
-      .search-box {
-        flex-direction: column;
+      .welcome {
+        margin-top: 7vh;
       }
 
-      .search-box button {
-        width: 100%;
+      .welcome h2 {
+        font-size: 25px;
       }
 
-      .movies-section {
-        padding: 50px 5%;
+      .bubble {
+        max-width: 82%;
+        font-size: 13px;
       }
 
-      .movie-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-      }
-
-      .modal {
-        padding: 10px;
-      }
-
-      .details {
-        flex-direction: column;
-        padding: 25px;
-      }
-
-      .details-poster {
-        width: 100%;
-        min-width: 0;
-        height: auto;
-        max-height: 500px;
-      }
-
-      .details-info h2 {
-        font-size: 28px;
-      }
-
-      .trailer-container {
-        padding: 0 25px 25px;
-      }
-
-      .trailer-container iframe {
-        height: 230px;
+      .input-wrapper {
+        padding: 12px;
       }
     }
   </style>
@@ -422,519 +508,227 @@
 
 <body>
 
-  <!-- ================= HEADER ================= -->
+  <div class="orb one"></div>
+  <div class="orb two"></div>
 
-  <header>
+  <div class="app">
 
-    <div class="logo">
-      Cine<span>Verse</span>
-    </div>
+    <!-- SIDEBAR -->
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#movies">Movies</a>
-      <a href="#movies">Popular</a>
-    </nav>
+    <aside class="sidebar">
 
-  </header>
+      <div class="logo">
+        <div class="logo-icon">🤖</div>
 
-
-  <!-- ================= HERO ================= -->
-
-  <section class="hero" id="home">
-
-    <div class="hero-content">
-
-      <p class="small-title">
-        WELCOME TO CINEVERSE
-      </p>
-
-      <h1>
-        Discover Your
-        <span>Next Movie</span>
-      </h1>
-
-      <p class="hero-text">
-        Search movies, discover popular films,
-        check ratings and explore movie information.
-      </p>
-
-      <div class="search-box">
-
-        <input
-          id="searchInput"
-          type="text"
-          placeholder="Search for a movie..."
-        >
-
-        <button id="searchBtn">
-          🔍 Search
-        </button>
-
+        <h1>Nick <span>AI</span></h1>
       </div>
 
-    </div>
-
-  </section>
-
-
-  <!-- ================= MOVIES ================= -->
-
-  <section class="movies-section" id="movies">
-
-    <div class="section-title">
-
-      <p class="small-title">
-        EXPLORE
-      </p>
-
-      <h2 id="sectionTitle">
-        Popular Movies 🎬
-      </h2>
-
-    </div>
-
-    <p id="status">
-      Loading movies...
-    </p>
-
-    <div
-      id="movieGrid"
-      class="movie-grid">
-    </div>
-
-  </section>
-
-
-  <!-- ================= MOVIE DETAILS MODAL ================= -->
-
-  <div
-    id="movieModal"
-    class="modal">
-
-    <div class="modal-content">
-
-      <button
-        class="close-btn"
-        id="closeModal">
-        ×
+      <button class="new-chat" onclick="newChat()">
+        ＋ New Chat
       </button>
 
-      <div class="details">
+      <div class="menu-title">Workspace</div>
 
-        <img
-          id="detailsPoster"
-          class="details-poster"
-          src=""
-          alt="Movie poster"
-        >
+      <div class="menu-item active">
+        💬 Chat
+      </div>
 
-        <div class="details-info">
+      <div class="menu-item">
+        ✨ Explore
+      </div>
 
-          <h2 id="detailsTitle">
-            Movie Title
-          </h2>
+      <div class="menu-item">
+        ⚙️ Settings
+      </div>
 
-          <div
-            id="detailsMeta"
-            class="details-meta">
+      <div class="status">
+        <span class="dot"></span>
+        Nick AI is online
+      </div>
+
+    </aside>
+
+    <!-- CHAT -->
+
+    <main class="chat">
+
+      <header class="topbar">
+
+        <div class="ai-info">
+
+          <div class="ai-avatar">
+            🤖
           </div>
 
-          <p
-            id="detailsOverview"
-            class="details-overview">
+          <div>
+            <h2>Nick AI</h2>
+            <p>
+              <span class="online">● Online</span>
+              · AI Assistant
+            </p>
+          </div>
+
+        </div>
+
+        <button class="clear-btn" onclick="clearChat()">
+          Clear chat
+        </button>
+
+      </header>
+
+      <!-- MESSAGES -->
+
+      <section id="messages">
+
+        <div class="welcome" id="welcome">
+
+          <div class="welcome-icon">
+            🤖
+          </div>
+
+          <h2>
+            Welcome to <span>Nick AI</span>
+          </h2>
+
+          <p>
+            Your smart AI assistant. Ask questions, learn new things,
+            brainstorm ideas, write code and much more.
           </p>
 
-          <div id="trailerArea"></div>
+          <div class="suggestions">
 
+            <button class="suggestion"
+              onclick="useSuggestion('Explain JavaScript to me')">
+              💻 Explain JavaScript
+            </button>
+
+            <button class="suggestion"
+              onclick="useSuggestion('Give me a cool website idea')">
+              💡 Website idea
+            </button>
+
+            <button class="suggestion"
+              onclick="useSuggestion('Help me learn programming')">
+              🚀 Learn programming
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- INPUT -->
+
+      <div class="input-wrapper">
+
+        <div class="input-box">
+
+          <input
+            id="input"
+            type="text"
+            autocomplete="off"
+            placeholder="Message Nick AI..."
+          >
+
+          <button id="send" onclick="sendMessage()">
+            ➤
+          </button>
+
+        </div>
+
+        <div class="footer-text">
+          Nick AI can make mistakes. Check important information.
         </div>
 
       </div>
 
-      <div
-        id="trailerContainer"
-        class="trailer-container">
-
-        <h3>
-          🎬 Official Trailer
-        </h3>
-
-        <iframe
-          id="trailerFrame"
-          src=""
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-
-      </div>
-
-    </div>
+    </main>
 
   </div>
 
-
-  <!-- ================= FOOTER ================= -->
-
-  <footer>
-
-    <h3>
-      CineVerse 🎬
-    </h3>
-
-    <p>
-      Movie information powered by TMDB.
-    </p>
-
-  </footer>
-
-
-  <!-- ================= JAVASCRIPT ================= -->
-
   <script>
 
-    // =========================
-    // TMDB API
-    // =========================
+    const input = document.getElementById("input");
+    const messages = document.getElementById("messages");
+    const sendButton = document.getElementById("send");
 
-    const API_KEY =
-      "87e705779727e8f5cb4e0a90947e951a";
+    function removeWelcome() {
+      const welcome = document.getElementById("welcome");
 
-    const API_URL =
-      "https://api.themoviedb.org/3";
-
-    const IMAGE_URL =
-      "https://image.tmdb.org/t/p/w500";
-
-
-    // =========================
-    // ELEMENTS
-    // =========================
-
-    const movieGrid =
-      document.getElementById("movieGrid");
-
-    const status =
-      document.getElementById("status");
-
-    const searchInput =
-      document.getElementById("searchInput");
-
-    const searchBtn =
-      document.getElementById("searchBtn");
-
-    const sectionTitle =
-      document.getElementById("sectionTitle");
-
-    const movieModal =
-      document.getElementById("movieModal");
-
-    const closeModal =
-      document.getElementById("closeModal");
-
-    const detailsPoster =
-      document.getElementById("detailsPoster");
-
-    const detailsTitle =
-      document.getElementById("detailsTitle");
-
-    const detailsMeta =
-      document.getElementById("detailsMeta");
-
-    const detailsOverview =
-      document.getElementById("detailsOverview");
-
-    const trailerArea =
-      document.getElementById("trailerArea");
-
-    const trailerContainer =
-      document.getElementById("trailerContainer");
-
-    const trailerFrame =
-      document.getElementById("trailerFrame");
-
-
-    // =========================
-    // GET POPULAR MOVIES
-    // =========================
-
-    async function getPopularMovies() {
-
-      status.innerText =
-        "Loading movies...";
-
-      try {
-
-        const response =
-          await fetch(
-            `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
-          );
-
-        if (!response.ok) {
-          throw new Error("API request failed");
-        }
-
-        const data =
-          await response.json();
-
-        displayMovies(data.results);
-
-      } catch (error) {
-
-        console.error(error);
-
-        status.innerText =
-          "❌ Failed to load movies.";
-
+      if (welcome) {
+        welcome.remove();
       }
     }
 
+    function addMessage(text, type) {
 
-    // =========================
-    // DISPLAY MOVIES
-    // =========================
+      removeWelcome();
 
-    function displayMovies(movies) {
+      const message = document.createElement("div");
+      message.className = `message ${type}`;
 
-      movieGrid.innerHTML = "";
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = type === "user" ? "👤" : "🤖";
 
-      if (!movies || movies.length === 0) {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = text;
 
-        status.innerText =
-          "No movies found.";
+      message.appendChild(avatar);
+      message.appendChild(bubble);
 
-        return;
-      }
+      messages.appendChild(message);
 
-      status.innerText =
-        `${movies.length} movies found`;
+      messages.scrollTop = messages.scrollHeight;
 
-
-      movies.forEach(movie => {
-
-        const card =
-          document.createElement("div");
-
-        card.className =
-          "movie-card";
-
-
-        const poster =
-          movie.poster_path
-            ? IMAGE_URL + movie.poster_path
-            : "https://via.placeholder.com/500x750?text=No+Poster";
-
-
-        const year =
-          movie.release_date
-            ? movie.release_date.substring(0, 4)
-            : "N/A";
-
-
-        const rating =
-          movie.vote_average != null
-            ? movie.vote_average.toFixed(1)
-            : "N/A";
-
-
-        card.innerHTML = `
-
-          <img
-            src="${poster}"
-            alt="${movie.title}"
-          >
-
-          <div class="movie-info">
-
-            <h3>
-              ${movie.title}
-            </h3>
-
-            <p>
-              📅 ${year}
-              &nbsp;&nbsp;
-              ⭐ ${rating}
-            </p>
-
-          </div>
-
-        `;
-
-
-        // CLICK MOVIE CARD
-        card.addEventListener(
-          "click",
-          function() {
-
-            openMovieDetails(movie.id);
-
-          }
-        );
-
-
-        movieGrid.appendChild(card);
-
-      });
-
+      return bubble;
     }
 
+    async function sendMessage() {
 
-    // =========================
-    // OPEN MOVIE DETAILS
-    // =========================
+      const message = input.value.trim();
 
-    async function openMovieDetails(movieId) {
+      if (!message) return;
 
-      movieModal.classList.add("active");
+      addMessage(message, "user");
 
-      detailsTitle.innerText =
-        "Loading...";
+      input.value = "";
 
-      detailsOverview.innerText =
-        "Loading movie information...";
+      sendButton.disabled = true;
 
-      detailsMeta.innerText =
-        "";
-
-      trailerArea.innerHTML =
-        "";
-
-      trailerContainer.classList.remove(
-        "active"
+      const aiBubble = addMessage(
+        "Nick AI is thinking... 🤔",
+        "ai"
       );
 
-      trailerFrame.src =
-        "";
-
       try {
 
-        const response =
-          await fetch(
-            `${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`
-          );
+        const response = await fetch("/api/chat", {
 
-        if (!response.ok) {
-          throw new Error(
-            "Movie details request failed"
-          );
-        }
+          method: "POST",
 
-        const movie =
-          await response.json();
+          headers: {
+            "Content-Type": "application/json"
+          },
 
+          body: JSON.stringify({
+            message: message
+          })
 
-        // POSTER
+        });
 
-        detailsPoster.src =
-          movie.poster_path
-            ? IMAGE_URL + movie.poster_path
-            : "https://via.placeholder.com/500x750?text=No+Poster";
+        const data = await response.json();
 
+        if (data.reply) {
 
-        // TITLE
-
-        detailsTitle.innerText =
-          movie.title;
-
-
-        // META INFORMATION
-
-        const year =
-          movie.release_date
-            ? movie.release_date.substring(0, 4)
-            : "N/A";
-
-        const rating =
-          movie.vote_average != null
-            ? movie.vote_average.toFixed(1)
-            : "N/A";
-
-        const runtime =
-          movie.runtime
-            ? `${movie.runtime} min`
-            : "N/A";
-
-
-        detailsMeta.innerHTML = `
-          📅 ${year}
-          &nbsp; • &nbsp;
-          ⭐ ${rating}/10
-          &nbsp; • &nbsp;
-          ⏱️ ${runtime}
-        `;
-
-
-        // OVERVIEW
-
-        detailsOverview.innerText =
-          movie.overview ||
-          "No description available for this movie.";
-
-
-        // =========================
-        // FIND TRAILER
-        // =========================
-
-        const videos =
-          movie.videos &&
-          movie.videos.results
-            ? movie.videos.results
-            : [];
-
-
-        const trailer =
-          videos.find(video =>
-            video.site === "YouTube" &&
-            video.type === "Trailer" &&
-            video.official === true
-          ) ||
-          videos.find(video =>
-            video.site === "YouTube" &&
-            video.type === "Trailer"
-          ) ||
-          videos.find(video =>
-            video.site === "YouTube"
-          );
-
-
-        if (trailer) {
-
-          trailerArea.innerHTML = `
-            <button
-              class="trailer-btn"
-              id="watchTrailer">
-              ▶️ Watch Trailer
-            </button>
-          `;
-
-
-          document
-            .getElementById("watchTrailer")
-            .addEventListener(
-              "click",
-              function() {
-
-                trailerFrame.src =
-                  `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
-
-                trailerContainer.classList.add(
-                  "active"
-                );
-
-                trailerContainer.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center"
-                });
-
-              }
-            );
+          aiBubble.textContent = data.reply;
 
         } else {
 
-          trailerArea.innerHTML = `
-            <p class="no-trailer">
-              🎬 No trailer available for this movie.
-            </p>
-          `;
+          aiBubble.textContent =
+            "❌ " + (data.error || "Something went wrong.");
 
         }
 
@@ -942,176 +736,79 @@
 
         console.error(error);
 
-        detailsTitle.innerText =
-          "Unable to load movie";
-
-        detailsOverview.innerText =
-          "Something went wrong while loading this movie.";
+        aiBubble.textContent =
+          "❌ I couldn't connect to the server.";
 
       }
+
+      sendButton.disabled = false;
+
+      input.focus();
+
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function useSuggestion(text) {
+
+      input.value = text;
+      input.focus();
 
     }
 
+    function clearChat() {
 
-    // =========================
-    // CLOSE MODAL
-    // =========================
+      messages.innerHTML = `
+        <div class="welcome" id="welcome">
 
-    function closeMovieModal() {
+          <div class="welcome-icon">
+            🤖
+          </div>
 
-      movieModal.classList.remove(
-        "active"
-      );
+          <h2>
+            Welcome to <span>Nick AI</span>
+          </h2>
 
-      trailerFrame.src =
-        "";
+          <p>
+            Your smart AI assistant. Ask questions, learn new things,
+            brainstorm ideas, write code and much more.
+          </p>
 
-      trailerContainer.classList.remove(
-        "active"
-      );
+          <div class="suggestions">
 
-    }
+            <button class="suggestion"
+              onclick="useSuggestion('Explain JavaScript to me')">
+              💻 Explain JavaScript
+            </button>
 
+            <button class="suggestion"
+              onclick="useSuggestion('Give me a cool website idea')">
+              💡 Website idea
+            </button>
 
-    closeModal.addEventListener(
-      "click",
-      closeMovieModal
-    );
+            <button class="suggestion"
+              onclick="useSuggestion('Help me learn programming')">
+              🚀 Learn programming
+            </button>
 
+          </div>
 
-    // CLICK OUTSIDE MODAL
-
-    movieModal.addEventListener(
-      "click",
-      function(event) {
-
-        if (event.target === movieModal) {
-
-          closeMovieModal();
-
-        }
-
-      }
-    );
-
-
-    // ESCAPE KEY
-
-    document.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (
-          event.key === "Escape" &&
-          movieModal.classList.contains("active")
-        ) {
-
-          closeMovieModal();
-
-        }
-
-      }
-    );
-
-
-    // =========================
-    // SEARCH MOVIES
-    // =========================
-
-    async function searchMovies() {
-
-      const query =
-        searchInput.value.trim();
-
-
-      if (!query) {
-
-        sectionTitle.innerText =
-          "Popular Movies 🎬";
-
-        getPopularMovies();
-
-        return;
-      }
-
-
-      status.innerText =
-        "Searching...";
-
-
-      try {
-
-        const response =
-          await fetch(
-            `${API_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1`
-          );
-
-
-        if (!response.ok) {
-          throw new Error(
-            "Search failed"
-          );
-        }
-
-
-        const data =
-          await response.json();
-
-
-        sectionTitle.innerText =
-          `Search Results: ${query}`;
-
-
-        displayMovies(
-          data.results
-        );
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        status.innerText =
-          "❌ Search failed.";
-
-      }
+        </div>
+      `;
 
     }
 
+    function newChat() {
+      clearChat();
+      input.focus();
+    }
 
-    // =========================
-    // SEARCH BUTTON
-    // =========================
+    input.addEventListener("keydown", function(event) {
 
-    searchBtn.addEventListener(
-      "click",
-      searchMovies
-    );
-
-
-    // =========================
-    // ENTER KEY
-    // =========================
-
-    searchInput.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Enter") {
-
-          searchMovies();
-
-        }
-
+      if (event.key === "Enter") {
+        sendMessage();
       }
-    );
 
-
-    // =========================
-    // START WEBSITE
-    // =========================
-
-    getPopularMovies();
+    });
 
   </script>
 

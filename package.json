@@ -1,0 +1,14 @@
+{
+  "name": "nick-ai",
+  "version": "1.0.0",
+  "description": "Nick AI Chatbot",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "dotenv": "^16.4.7",
+    "openai": "^4.77.3"
+  }
+}
